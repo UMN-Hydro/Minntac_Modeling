@@ -72,8 +72,8 @@ hydcond(1:nearest(88/y_scale),nearest(97/x_scale):nearest(138/x_scale)) = 0.0036
 hydcond(1:nearest(88/y_scale),nearest(139/x_scale):nearest(220/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
-hiRate = 1.14e-3; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 1.14e-4;
+hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
+loRate = 0.000114;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
@@ -340,7 +340,7 @@ if fl_recharge
         SpatVarRechRate = ones(ncol,1);
         SpatVarRechRate(1:nearest(216/x_scale)) = hiRate;
         SpatVarRechRate(nearest(217/x_scale):nearest(400/x_scale)) = loRate;
-        fprintf(fid, 'INTERNAL   1.000E­00 (FREE) 0         recharge rate  \n');
+        fprintf(fid, 'INTERNAL   1.0 (FREE) 0         recharge rate  \n');
         fprintf(fid, format1, SpatVarRechRate);
     end
     fclose(fid);
