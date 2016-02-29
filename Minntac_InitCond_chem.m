@@ -63,9 +63,9 @@ ii=ii+1; mob_eq_comp{ii} = 'C(4)'; % ***********************************
 Ka1 = 10^-6.3; Ka2 = 10^-10.3; KH = 10^-14;
 pH = 6.92;
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(3*5.19/1000, pH, Ka1, Ka2, KH); % meq/L  
-zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(3*5.19/1000, pH, Ka1, Ka2, KH); % meq/L  
-zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(3*5.19/1000, pH, Ka1, Ka2, KH); % meq/L  
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(3*5.19/1000, pH, Ka1, Ka2, KH); % meq/L  
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(3*5.19/1000, pH, Ka1, Ka2, KH); % meq/L  
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(3*5.19/1000, pH, Ka1, Ka2, KH); % meq/L  
 convert_obs2model(ii) = 1;
 ii=ii+1; mob_eq_comp{ii} = 'Ca'; % ***********************************
 zz = 0;
@@ -106,7 +106,7 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug/L
 convert_obs2model(ii) = 1/1e6/54.938;
 ii=ii+1; mob_eq_comp{ii} = 'Na'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L 'charge' denotes will balance with anions
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 20; % mg/L 'charge' denotes will balance with anions
 mob_eq_extra_z{zz,ii} = 'charge';
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 mob_eq_extra_z{zz,ii} = 'charge';
@@ -115,9 +115,9 @@ mob_eq_extra_z{zz,ii} = 'charge';
 convert_obs2model(ii) = 1/1e3/22.9898;
 ii=ii+1; mob_eq_comp{ii} = 'O(0)'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 100; % mg/L DO  
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 100; % mg/L DO  
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 100; % mg/L DO  
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L DO  
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L DO  
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L DO  
 convert_obs2model(ii) = 1/1e3/16.0;
 ii=ii+1; mob_eq_comp{ii} = 'S(-2)'; % ***********************************
 zz = 0;
