@@ -11,6 +11,7 @@ function [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, ..
 %       Called by generate_ic_PHREEQC_f_051915a(), runs PHREEQC
 sim_dir = 'C:\Hydro_Modeling\pht3d_dir\';
 phrq_sim_dir = sim_dir;
+
 phrq_exe = 'C:\Hydro_Modeling\phreeqc.exe';
 use_file_databas = 'C:\Hydro_Modeling\pht3d_dir\pht3d_datab2.dat';
 tempC = 10.0; 
@@ -74,7 +75,7 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 convert_obs2model(ii) = 1/1000/40.08;
 ii=ii+1; mob_eq_comp{ii} = 'Cl'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 141.557; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 convert_obs2model(ii) = 1/1000/35.453;
@@ -105,11 +106,11 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug/L
 convert_obs2model(ii) = 1/1e6/54.938;
 ii=ii+1; mob_eq_comp{ii} = 'Na'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.89; % mg/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L 'charge' denotes will balance with anions
 mob_eq_extra_z{zz,ii} = 'charge';
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.89; % mg/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 mob_eq_extra_z{zz,ii} = 'charge';
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.89; % mg/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 mob_eq_extra_z{zz,ii} = 'charge';
 convert_obs2model(ii) = 1/1e3/22.9898;
 ii=ii+1; mob_eq_comp{ii} = 'O(0)'; % ***********************************
@@ -126,7 +127,7 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg S/L
 convert_obs2model(ii) = 1/1e3/32.064;
 ii=ii+1; mob_eq_comp{ii} = 'S(6)'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 845; % mg SO4/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 918.172; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 convert_obs2model(ii) = 1/1e3/(32.064+4*16.0);
