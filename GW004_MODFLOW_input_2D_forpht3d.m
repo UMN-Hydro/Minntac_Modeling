@@ -85,9 +85,9 @@ TopHead = [0:(-3.63)/(ncol-1):-3.63];  % head at top boundary (elev nominal at s
 
 % - K array (assume isotropic, but can be heterogeneous)
 hydcond = ones(nlay,ncol) * 2.46;  % Avg from MW12 S/I/D m/d
-hydcond(1:round(88/y_scale),1:round(96/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(97/x_scale):round(138/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(139/x_scale):round(220/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),1:round(150/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),round(150/x_scale):round(225/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),round(225/x_scale):round(375/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
