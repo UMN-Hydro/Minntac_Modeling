@@ -58,18 +58,18 @@ ncol = 150;   %
 y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
-domain_len = 342.9; % meters
-domain_bot_elev = -19; % meters
+domain_len = 196; % meters
+domain_bot_elev = -23.2; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
-TopHead = [0:(-10.5)/(ncol-1):-10.5];  % head at top boundary (elev nominal at stream bottom)
+TopHead = [0:(-18.8)/(ncol-1):-18.8];  % head at top boundary (elev nominal at stream bottom)
 
 % - K array (assume isotropic, but can be heterogeneous)
 hydcond = ones(nlay,ncol) * 2.46;  % Avg from MW12 S/I/D m/d
-hydcond(1:nearest(88/y_scale),1:nearest(96/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:nearest(88/y_scale),nearest(97/x_scale):nearest(138/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:nearest(88/y_scale),nearest(139/x_scale):nearest(220/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:nearest(88/y_scale),1:nearest(160/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:nearest(88/y_scale),nearest(160/x_scale):nearest(240/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:nearest(88/y_scale),nearest(240/x_scale):nearest(400/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux

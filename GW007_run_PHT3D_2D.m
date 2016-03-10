@@ -98,7 +98,7 @@ addpath(matlab_dir);
 % 1C) SET TIME PARAMETERS
 % timprs = [0:30:1800]; % print out times [Start Time:Increment:End Time] [d]
 timprs = [0:300:1800]; % print out times [d]
-nstp = 20;  % number of time steps, incr for better numerical performance, decr for faster simulations
+nstp = 5;  % number of time steps, incr for better numerical performance, decr for faster simulations
 
 
 % 1D) PHYSICAL INPUTS AND PARAMETERS 
@@ -107,9 +107,9 @@ nstp = 20;  % number of time steps, incr for better numerical performance, decr 
 nlay = 75;
 ncol = 150;   
 nrow = 1;
-domain_bot_elev = -19; % m
+domain_bot_elev = -17.4; % m
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
-domain_len = 342.9; % [m]
+domain_len = 177; % [m]
 
 y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
@@ -177,7 +177,7 @@ Orgcsed_log10K = log10([1e5, 0.075e-6]);  % rate-limiting, 1. aerobic, 2. anaero
 % (nrow,ncol,nlay,n_comp)
 [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, catex_comp, catex_ic_z, ...
     surf_comp, surf_ic_z, surf_par, surf_cpl, surf_calc_type] = ...
-    MW12_Minntac_InitCond_chem(sim_dir, phrq_exe, use_file_databas, por, tempC);
+    GW007_Minntac_InitCond_chem(sim_dir, phrq_exe, use_file_databas, por, tempC);
 if isempty(mob_eq_comp)
     fprintf('Minntac_InitCond_chem did not return valid results, exiting... \n')
     return
@@ -199,11 +199,11 @@ mob_eq_distr_rech = zeros(nrow,ncol,n_mob_eq); % to specify distributed concentr
 %==================================================
 % RECHARGE CONCENTRATIONS: SULFATE & CHLORIDE (mg/L)
 %==================================================
-% mob_eq_distr_rech(1,1:(216/x_scale),11) = 10 % recharge concentration of Sulfate from perimeter dike
+%mob_eq_distr_rech(1,1:(216/x_scale),11) = .03 % recharge concentration of Sulfate from perimeter dike
 mob_eq_distr_rech(1,1:(216/x_scale),11) = mob_eq_ic_z(3,11); % recharge concentration of Sulfate from perimeter dike
-%mob_eq_distr_rech(1,(216/x_scale):(400/x_scale),11) = 0 % recharge concetrations of Sulfate from natural land surface
-%mob_eq_distr_rech(1,1:(216/x_scale),3) = 0 % recharge concentrations of Cl from perimeter dike
-%mob_eq_distr_rech(1,(216/x_scale):(400/x_scale),3) = 0 % recharge concentrations of Cl from natural land surface
+mob_eq_distr_rech(1,(216/x_scale):(400/x_scale),11) = 0 % recharge concetrations of Sulfate from natural land surface
+mob_eq_distr_rech(1,1:(216/x_scale),3) = 0 % recharge concentrations of Cl from perimeter dike
+mob_eq_distr_rech(1,(216/x_scale):(400/x_scale),3) = 0 % recharge concentrations of Cl from natural land surface
 catex_ic = zeros(nrow,ncol,nlay,n_catex); 
 surf_ic = zeros(nrow,ncol,nlay,n_surf); 
 

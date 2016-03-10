@@ -37,17 +37,35 @@ clear all, close all; fclose all;
 % -- MOD_dir: Directory where you keep your MODFLOW test directories
 % (you can ignore "isunix" part, that's for my computers)
 
-MOD_dir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES';
+fl_gcng = 0;  % 1 for gcng
 
-% -- MOD_exe: MODFLOW executable 
-% (not actually used, but script will print command for you for your
-% convenience)
-MOD_exe = 'C:/Hydro_Modeling/mf2005.1_11/bin/mf2005.exe';
+if fl_gcng
+    MOD_dir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3';
 
-% *** NEW
-% only use ONE of these lines for slashstr (comment out the other)
-slashstr = '/';  % use this if on Linux
-% slashstr = '\';  % use this if on Windows
+    % -- MOD_exe: MODFLOW executable 
+    % (not actually used, but script will print command for you for your
+    % convenience)
+    MOD_exe = '/home/gcng/workspace/Models/MODFLOW/Unix/exe/mf2005';
+
+    % *** NEW
+    % only use ONE of these lines for slashstr (comment out the other)
+    slashstr = '/';  % use this if on Linux
+    % slashstr = '\';  % use this if on Windows        
+    
+else % Patrick
+    MOD_dir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES';
+
+    % -- MOD_exe: MODFLOW executable 
+    % (not actually used, but script will print command for you for your
+    % convenience)
+    MOD_exe = 'C:/Hydro_Modeling/mf2005.1_11/bin/mf2005.exe';
+
+    % *** NEW
+    % only use ONE of these lines for slashstr (comment out the other)
+    slashstr = '/';  % use this if on Linux
+    % slashstr = '\';  % use this if on Windows
+end
+
 
 % ************* (end to CUSTOMIZE TO YOUR COMPUTER!!) *********************
 
@@ -58,18 +76,18 @@ ncol = 150;   %
 y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
-domain_len = 342.9; % meters
-domain_bot_elev = -19; % meters
+domain_len = 196; % meters
+domain_bot_elev = -23.2; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
-TopHead = [0:(-10.5)/(ncol-1):-10.5];  % head at top boundary (elev nominal at stream bottom)
+TopHead = [0:(-18.8)/(ncol-1):-18.8];  % head at top boundary (elev nominal at stream bottom)
 
 % - K array (assume isotropic, but can be heterogeneous)
 hydcond = ones(nlay,ncol) * 2.46;  % Avg from MW12 S/I/D m/d
-hydcond(1:nearest(88/y_scale),1:nearest(96/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:nearest(88/y_scale),nearest(97/x_scale):nearest(138/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:nearest(88/y_scale),nearest(139/x_scale):nearest(220/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),1:round(160/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),round(160/x_scale):round(240/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),round(240/x_scale):round(400/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
@@ -128,59 +146,64 @@ DELR = domain_len / ncol;  DELC = DELR;
 dz = (domain_top_elev - domain_bot_elev)/nlay;
 
 IBOUND = ones(nlay, ncol);  % 1: variable head 
-IBOUND(nearest(156/y_scale):nearest(200/y_scale),1:nearest(327/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(158/y_scale):nearest(200/y_scale),nearest(328/x_scale):nearest(340/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(160/y_scale):nearest(200/y_scale),nearest(341/x_scale):nearest(350/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(164/y_scale):nearest(200/y_scale),nearest(351/x_scale):nearest(356/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(168/y_scale):nearest(200/y_scale),nearest(357/x_scale):nearest(360/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(172/y_scale):nearest(200/y_scale),nearest(361/x_scale):nearest(364/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(176/y_scale):nearest(200/y_scale),nearest(365/x_scale):nearest(368/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(180/y_scale):nearest(200/y_scale),nearest(369/x_scale):nearest(372/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(184/y_scale):nearest(200/y_scale),nearest(373/x_scale):nearest(376/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(188/y_scale):nearest(200/y_scale),nearest(377/x_scale):nearest(380/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(192/y_scale):nearest(200/y_scale),nearest(381/x_scale):nearest(384/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(194/y_scale):nearest(200/y_scale),nearest(385/x_scale):nearest(388/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(196/y_scale):nearest(200/y_scale),nearest(389/x_scale):nearest(392/x_scale)) = 0;  % 0: no flow at bottom
-IBOUND(nearest(198/y_scale):nearest(200/y_scale),nearest(393/x_scale):nearest(396/x_scale)) = 0;  % 0: no flow at bottom
+IBOUND(1:(200/y_scale),1) = -1 %Constant Head at Cell 1
+IBOUND((324/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW004
+IBOUND((200/y_scale),1:(400/x_scale)) = 0; %No flow base
+IBOUND(1,1:(400/x_scale)) = 1
 
-IBOUND(1:nearest(72/y_scale),1) = -1; % constant head at cell 1
-IBOUND(nearest(73/y_scale):nearest(155/y_scale),1) = 1; % variable head below cell 1, break at 13/14 due to assumed depth of
+%IBOUND(nearest(156/y_scale):nearest(200/y_scale),1:nearest(327/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(158/y_scale):nearest(200/y_scale),nearest(328/x_scale):nearest(340/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(160/y_scale):nearest(200/y_scale),nearest(341/x_scale):nearest(350/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(164/y_scale):nearest(200/y_scale),nearest(351/x_scale):nearest(356/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(168/y_scale):nearest(200/y_scale),nearest(357/x_scale):nearest(360/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(172/y_scale):nearest(200/y_scale),nearest(361/x_scale):nearest(364/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(176/y_scale):nearest(200/y_scale),nearest(365/x_scale):nearest(368/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(180/y_scale):nearest(200/y_scale),nearest(369/x_scale):nearest(372/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(184/y_scale):nearest(200/y_scale),nearest(373/x_scale):nearest(376/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(188/y_scale):nearest(200/y_scale),nearest(377/x_scale):nearest(380/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(192/y_scale):nearest(200/y_scale),nearest(381/x_scale):nearest(384/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(194/y_scale):nearest(200/y_scale),nearest(385/x_scale):nearest(388/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(196/y_scale):nearest(200/y_scale),nearest(389/x_scale):nearest(392/x_scale)) = 0;  % 0: no flow at bottom
+%IBOUND(nearest(198/y_scale):nearest(200/y_scale),nearest(393/x_scale):nearest(396/x_scale)) = 0;  % 0: no flow at bottom
+
+%IBOUND(1:nearest(72/y_scale),1) = -1; % constant head at cell 1
+%IBOUND(nearest(73/y_scale):nearest(155/y_scale),1) = 1; % variable head below cell 1, break at 13/14 due to assumed depth of
                      % tailing pond to be 10 meters... 10 meters approx =
                      % 13 grid cells. Assumption pond is losing water body.
-IBOUND(nearest(111/y_scale):end,end) = -1; % constant head at MW12
-IBOUND(1,2:nearest(216/x_scale)) = 1; % 1: variable head at top
+%IBOUND(nearest(111/y_scale):end,end) = -1; % constant head at MW12
+%IBOUND(1,2:nearest(216/x_scale)) = 1; % 1: variable head at top
 
-IBOUND(1:ceil(4/y_scale),nearest(217/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:ceil(8/y_scale),nearest(219/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:ceil(12/y_scale),nearest(220/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(16/y_scale),nearest(222/x_scale):nearest(233/x_scale)) = 0; % in the air
-IBOUND(1:nearest(20/y_scale),nearest(225/x_scale):nearest(232/x_scale)) = 0; % in the air
-IBOUND(1:nearest(14/y_scale),nearest(233/x_scale):nearest(237/x_scale)) = 0; % in the air
-IBOUND(1:nearest(28/y_scale),nearest(238/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(34/y_scale),nearest(239/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(37/y_scale),nearest(240/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(44/y_scale),nearest(242/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(47/y_scale),nearest(244/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(53/y_scale),nearest(246/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(55/y_scale),nearest(248/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(57/y_scale),nearest(253/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(59/y_scale),nearest(255/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(61/y_scale),nearest(265/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(63/y_scale),nearest(267/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(65/y_scale),nearest(294/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(67/y_scale),nearest(318/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(69/y_scale),nearest(328/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(71/y_scale),nearest(329/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(73/y_scale),nearest(331/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(75/y_scale),nearest(337/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(77/y_scale),nearest(344/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(79/y_scale),nearest(346/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(81/y_scale),nearest(349/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(83/y_scale),nearest(353/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(85/y_scale),nearest(357/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(88/y_scale),nearest(363/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(90/y_scale),nearest(369/x_scale):nearest(400/x_scale)) = 0; % in the air
-IBOUND(1:nearest(92/y_scale),nearest(382/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:ceil(4/y_scale),nearest(217/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:ceil(8/y_scale),nearest(219/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:ceil(12/y_scale),nearest(220/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(16/y_scale),nearest(222/x_scale):nearest(233/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(20/y_scale),nearest(225/x_scale):nearest(232/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(14/y_scale),nearest(233/x_scale):nearest(237/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(28/y_scale),nearest(238/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(34/y_scale),nearest(239/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(37/y_scale),nearest(240/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(44/y_scale),nearest(242/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(47/y_scale),nearest(244/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(53/y_scale),nearest(246/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(55/y_scale),nearest(248/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(57/y_scale),nearest(253/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(59/y_scale),nearest(255/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(61/y_scale),nearest(265/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(63/y_scale),nearest(267/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(65/y_scale),nearest(294/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(67/y_scale),nearest(318/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(69/y_scale),nearest(328/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(71/y_scale),nearest(329/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(73/y_scale),nearest(331/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(75/y_scale),nearest(337/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(77/y_scale),nearest(344/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(79/y_scale),nearest(346/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(81/y_scale),nearest(349/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(83/y_scale),nearest(353/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(85/y_scale),nearest(357/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(88/y_scale),nearest(363/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(90/y_scale),nearest(369/x_scale):nearest(400/x_scale)) = 0; % in the air
+%IBOUND(1:nearest(92/y_scale),nearest(382/x_scale):nearest(400/x_scale)) = 0; % in the air
 
 
 
