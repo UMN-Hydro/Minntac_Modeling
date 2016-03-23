@@ -53,7 +53,7 @@ clear all, close all; fclose all;
 
 % - matlab_dir: directory with matlab functions 
 % matlab_dir = '.';  % use '.' if all your functions and scripts in the same directory
-matlab_dir = 'C:\Hydro_Modeling\PHT3D_files\';  
+matlab_dir = 'C:\Hydro_Modeling\MINNTAC_MATLAB_FILES\';  
 
 % - choose one of these
 slashstr = '/'; % for Linux or Windows/Cygwin
