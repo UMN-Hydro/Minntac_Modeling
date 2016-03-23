@@ -11,10 +11,14 @@ clear all, fclose all;
 close all,
 
 % --------------------------------------------------------
+fl_gcng = 1;  % 1: Crystal, 0: Patrick
 
 % -- directory with simulation results, file names
-MOD_simdir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES/test2_1D_3';
-% MOD_simdir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3';
+if fl_gcng
+    MOD_simdir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3/test2_1D_3';
+else    
+    MOD_simdir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES/test2_1D_3';
+end
 head_file = 'testhead.dat'; % head data
 ibound_file = 'ibound.dat'; % needed to get active cell info for reading water budget file
 bud_file = 'test.bud'; % water budget file (for flow lines)
@@ -23,9 +27,15 @@ lpf_file = 'test_1D.lpf'; % read in for K inputs
 
 
 % Only ONE can be 1, others 0
-fl_MOD_PC = 1;
-fl_MOD_USGS_RedHat = 0; 
-fl_MOD_UBUNTU = 0;
+if fl_gcng
+    fl_MOD_PC = 0;
+    fl_MOD_USGS_RedHat = 0; 
+    fl_MOD_UBUNTU = 1;
+else
+    fl_MOD_PC = 1;
+    fl_MOD_USGS_RedHat = 0; 
+    fl_MOD_UBUNTU = 0;
+end
 if fl_MOD_PC + fl_MOD_USGS_RedHat + fl_MOD_UBUNTU ~= 1
     fprintf('ERROR!! Only one of following can be equal to 1! \n');
     fprintf('fl_MOD_PC. fl_MOD_USGS_RedHat, fl_MOD_UBUNTU \n');

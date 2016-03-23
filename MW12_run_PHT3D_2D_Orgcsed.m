@@ -197,6 +197,7 @@ Orgcsed_conc_ic = 0.3*por/rho_b;  % [mol/Lw] * por / rho_b = [mol/g] * current v
 % - kinetic parameters (we're assuming 1st order decay)
 % (increase logK for faster decay)
 Orgcsed_log10K = log10([1e5, 0.075e-6]);  % rate-limiting, 1. aerobic, 2. anaerobic 
+% Orgcsed_log10K = log10([1e5, 1e-8]);  % rate-limiting, 1. aerobic, 2. anaerobic 
 
 
 % 1F) SET UP GEOCHEMICAL INITIAL AND BOUNDARY CONDITIONS
@@ -206,7 +207,7 @@ Orgcsed_log10K = log10([1e5, 0.075e-6]);  % rate-limiting, 1. aerobic, 2. anaero
 % (nrow,ncol,nlay,n_comp)
 [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, catex_comp, catex_ic_z, ...
     surf_comp, surf_ic_z, surf_par, surf_cpl, surf_calc_type] = ...
-    MW12_Minntac_InitCond_chem(sim_dir, phrq_exe, use_file_databas, por, tempC);
+    MW12_Minntac_InitCond_chem_red(sim_dir, phrq_exe, use_file_databas, por, tempC);
 if isempty(mob_eq_comp)
     fprintf('Minntac_InitCond_chem did not return valid results, exiting... \n')
     return

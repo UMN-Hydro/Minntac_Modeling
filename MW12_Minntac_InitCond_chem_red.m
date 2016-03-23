@@ -1,6 +1,6 @@
 function [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, ...
     catex_comp, catex_ic_z, surf_comp, surf_ic_z, surf_par, surf_cpl, surf_calc_type] = ...
-    MW12_Minntac_InitCond_chem(phrq_sim_dir, phrq_exe, use_file_databas, por, tempC) 
+    MW12_Minntac_InitCond_chem_red(phrq_sim_dir, phrq_exe, use_file_databas, por, tempC) 
 
 % Uses the following functions:
 %   - Alk2DIC() (only needed if data is for alkalinity)
@@ -123,9 +123,9 @@ mob_eq_extra_z{zz,ii} = 'charge';
 convert_obs2model(ii) = 1/1e3/22.9898;
 ii=ii+1; mob_eq_comp{ii} = 'O(0)'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 100; % mg/L DO  
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 10; % mg/L DO  
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 10; % mg/L DO  
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L DO  
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L DO  
 convert_obs2model(ii) = 1/1e3/16.0;
 ii=ii+1; mob_eq_comp{ii} = 'S(-2)'; % ***********************************
 zz = 0;
