@@ -107,7 +107,7 @@ nstp = 5;  % number of time steps, incr for better numerical performance, decr f
 nlay = 75;
 ncol = 150;   
 nrow = 1;
-domain_bot_elev = -17.4; % m
+domain_bot_elev = -21.8; % m
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 domain_len = 177; % [m]
 

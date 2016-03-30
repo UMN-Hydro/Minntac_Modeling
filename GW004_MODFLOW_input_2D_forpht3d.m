@@ -77,7 +77,7 @@ y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
 domain_len = 213.4; % meters
-domain_bot_elev = -18.29; % meters
+domain_bot_elev = -20; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
@@ -146,8 +146,8 @@ DELR = domain_len / ncol;  DELC = DELR;
 dz = (domain_top_elev - domain_bot_elev)/nlay;
 
 IBOUND = ones(nlay, ncol);  % 1: variable head 
-IBOUND(1:(200/y_scale),1) = -1 %Constant Head at Cell 1
-IBOUND((40/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW004
+IBOUND(1:(78/y_scale),1) = -1 %Constant Head at Cell 1
+IBOUND((37/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW004
 IBOUND((200/y_scale),1:(400/x_scale)) = 0; %No flow base
 IBOUND(1,1:(400/x_scale)) = 1
 
