@@ -25,11 +25,15 @@ xlimv = zeros(n_pcomp_max, 2);
 ii = 0;
 ii = ii + 1; plot_comp{ii} = 'S(6)'; xlimv(ii,:) = [0 5];
 % ii = ii + 1; plot_comp{ii} = 'FeS(ppt)'; xlimv(ii,:) = [0 .055];
+% ii = ii + 1; plot_comp{ii} = 'Fe(2)'; xlimv(ii,:) = [0 5];
 ii = ii + 1; plot_comp{ii} = 'Cl'; xlimv(ii,:) = [0 5];
 ii = ii + 1; plot_comp{ii} = 'Orgcsed';
 ii = ii + 1; plot_comp{ii} = 'S(-2)'; xlimv(ii,:) = [0 1.5e-4];
-ii = ii + 1; plot_comp{ii} = 'O(0)';
-% ii = ii + 1; plot_comp{ii} = 'Fe(2)'; xlimv(ii,:) = [0 1.25];
+% ii = ii + 1; plot_comp{ii} = 'O(0)';
+% ii = ii + 1; plot_comp{ii} = 'pe'; xlimv(ii,:) = [-14 14];
+% ii = ii + 1; plot_comp{ii} = 'Mn(2)'; xlimv(ii,:) = [-14 14];
+% ii = ii + 1; plot_comp{ii} = 'C(4)'; xlimv(ii,:) = [-14 14];
+ii = ii + 1; plot_comp{ii} = 'C(-4)'; xlimv(ii,:) = [-14 14];
 
 n_pcomp = ii; plot_comp = plot_comp(1:n_pcomp);
 
@@ -101,20 +105,24 @@ for ii = 1:n_pcomp
     figure(f_i), orient landscape
     x = eval(plot_comp0{ii});
     x = reshape(x, ncol, nlay, ntimes);  % ** May need to change order of nlay and ncol!!!
-    x = 1000*x; % mM
+    ti = [simname, ': ', plot_comp{ii}];
+    if ~(strcmp(plot_comp0{ii}, 'pH') || strcmp(plot_comp0{ii}, 'pe'))
+        x = 1000*x; % mM
+        ti = [ti, ' mM'];
+    end
     
     subplot(prow,pcol,p_i)
     ts = ntimes;
-%     ts = 1;
+    ts = 4;
     xt = x(:,:,ts)'; % data at timestep ts
-    xt = xt(1:end-1,:);
+%     xt = xt(1:end-1,:);
     xt(xt>1e10) = nan;
     imagesc(xt); colorbar
     
     minval = 0; 
     maxval = 0;
 %     caxis([minval, maxval])
-    title([simname, ': ', plot_comp{ii}, ' mM'])
+    title(ti)
 end
 
 if fl_print

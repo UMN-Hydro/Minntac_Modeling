@@ -76,7 +76,8 @@ if fl_gcng
     fl_rech = 1;  % 1: for recharge, 0 for no recharge in the MODFLOW simulation
 
     % - use_file_databas: geochem database, this is copied into 'pht3d_datab.dat' in sim_dir for simulation
-    use_file_databas = '/home/gcng/Documents/Teaching/ESCI5980_HydModeling/Fall2015/Lectures/L16_PHT3D_2/PHT3D_files/pht3d_datab.dat';
+%     use_file_databas = '/home/gcng/Documents/Teaching/ESCI5980_HydModeling/Fall2015/Lectures/L16_PHT3D_2/PHT3D_files/pht3d_datab.dat';
+    use_file_databas = '/export/scratch/PHT3D_projects/Minntac/test1/pht3d_datab.dat_160323';
     % ************ (end of computer-specific file specifications) *************
 else    
     % - matlab_dir: directory with matlab functions 
@@ -126,7 +127,7 @@ addpath(matlab_dir);
 
 % 1C) SET TIME PARAMETERS
 % timprs = [0:30:1800]; % print out times [Start Time:Increment:End Time] [d]
-timprs = [0:300:1800]; % print out times [d]
+timprs = [0,1,365:365:365*6]; % print out times [d]
 nstp = 20;  % number of time steps, incr for better numerical performance, decr for faster simulations
 
 
@@ -196,8 +197,8 @@ Orgcsed_conc_ic = 0.3*por/rho_b;  % [mol/Lw] * por / rho_b = [mol/g] * current v
 
 % - kinetic parameters (we're assuming 1st order decay)
 % (increase logK for faster decay)
-Orgcsed_log10K = log10([1e5, 0.075e-6]);  % rate-limiting, 1. aerobic, 2. anaerobic 
-% Orgcsed_log10K = log10([1e5, 1e-8]);  % rate-limiting, 1. aerobic, 2. anaerobic 
+% Orgcsed_log10K = log10([1e5, 0.075e-6]);  % rate-limiting, 1. aerobic, 2. anaerobic (orig)
+Orgcsed_log10K = log10([0.075e-6, 0.075e-7]);  % rate-limiting, 1. aerobic, 2. anaerobic 
 
 
 % 1F) SET UP GEOCHEMICAL INITIAL AND BOUNDARY CONDITIONS
@@ -263,11 +264,17 @@ end
 %==================================================
 % RECHARGE CONCENTRATIONS: SULFATE & CHLORIDE (mg/L)
 %==================================================
-% mob_eq_distr_rech(1,1:(216/x_scale),11) = 10 % recharge concentration of Sulfate from perimeter dike
-mob_eq_distr_rech(1,1:(216/x_scale),11) = mob_eq_ic_z(3,11); % recharge concentration of Sulfate from perimeter dike
+ind_sulfate = find(strcmp(mob_eq_comp, 'S(6)'));
+ind_DO = find(strcmp(mob_eq_comp, 'O(0)'));
+% mob_eq_distr_rech(1,1:(216/x_scale),ind_sulfate) = 10 % recharge concentration of Sulfate from perimeter dike
+mob_eq_distr_rech(1,1:(216/x_scale),ind_sulfate) = mob_eq_ic_z(3,11); % recharge concentration of Sulfate from perimeter dike
 %mob_eq_distr_rech(1,(216/x_scale):(400/x_scale),11) = 0 % recharge concetrations of Sulfate from natural land surface
 %mob_eq_distr_rech(1,1:(216/x_scale),3) = 0 % recharge concentrations of Cl from perimeter dike
 %mob_eq_distr_rech(1,(216/x_scale):(400/x_scale),3) = 0 % recharge concentrations of Cl from natural land surface
+
+% force anoxic
+mob_eq_ic(:,2:end,1:end,ii) = 0; % rest of domain (not Cell water)
+mob_eq_distr_rech(1,1:(216/x_scale),ind_DO) = 0; 
 
 
 % 1G) ADDITIONAL OUTPUT VARIABLES FOR 'SELECT' FILE, SET IN POSTFIX FILE

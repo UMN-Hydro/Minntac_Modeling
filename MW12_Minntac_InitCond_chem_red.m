@@ -190,7 +190,7 @@ ii = 0;
 ii=ii+1; min_eq_comp{ii} = 'FeS(ppt)'; % ***********************************
 zz = 0;
 zz = zz + 1; min_eq_ic_z(zz,ii) = 0;  % 0 mineral in Cell 2 water
-zz = zz + 1; min_eq_ic_z(zz,ii) = 0;  % arbitrary conc
+zz = zz + 1; min_eq_ic_z(zz,ii) = 10;  % arbitrary conc
 zz = zz + 1; min_eq_ic_z(zz,ii) = 0;  % arbitrary conc
 % zz = zz + 1; min_eq_ic_z(zz,ii) = 10;  % arbitrary conc
 % zz = zz + 1; min_eq_ic_z(zz,ii) = 10;  % arbitrary conc
