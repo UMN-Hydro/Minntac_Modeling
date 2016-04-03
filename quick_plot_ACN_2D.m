@@ -23,17 +23,17 @@ n_pcomp_max = 20;
 plot_comp = cell(n_pcomp_max,1); 
 xlimv = zeros(n_pcomp_max, 2);
 ii = 0;
-ii = ii + 1; plot_comp{ii} = 'S(6)'; xlimv(ii,:) = [0 5];
+% ii = ii + 1; plot_comp{ii} = 'S(6)'; xlimv(ii,:) = [0 5];
 % ii = ii + 1; plot_comp{ii} = 'FeS(ppt)'; xlimv(ii,:) = [0 .055];
 % ii = ii + 1; plot_comp{ii} = 'Fe(2)'; xlimv(ii,:) = [0 5];
 ii = ii + 1; plot_comp{ii} = 'Cl'; xlimv(ii,:) = [0 5];
-ii = ii + 1; plot_comp{ii} = 'Orgcsed';
-ii = ii + 1; plot_comp{ii} = 'S(-2)'; xlimv(ii,:) = [0 1.5e-4];
+% ii = ii + 1; plot_comp{ii} = 'Orgcsed';
+% ii = ii + 1; plot_comp{ii} = 'S(-2)'; xlimv(ii,:) = [0 1.5e-4];
 % ii = ii + 1; plot_comp{ii} = 'O(0)';
 % ii = ii + 1; plot_comp{ii} = 'pe'; xlimv(ii,:) = [-14 14];
 % ii = ii + 1; plot_comp{ii} = 'Mn(2)'; xlimv(ii,:) = [-14 14];
 % ii = ii + 1; plot_comp{ii} = 'C(4)'; xlimv(ii,:) = [-14 14];
-ii = ii + 1; plot_comp{ii} = 'C(-4)'; xlimv(ii,:) = [-14 14];
+% ii = ii + 1; plot_comp{ii} = 'C(-4)'; xlimv(ii,:) = [-14 14];
 
 n_pcomp = ii; plot_comp = plot_comp(1:n_pcomp);
 
@@ -112,8 +112,8 @@ for ii = 1:n_pcomp
     end
     
     subplot(prow,pcol,p_i)
-    ts = ntimes;
-    ts = 4;
+%     ts = ntimes;
+    ts = ntimes-1;
     xt = x(:,:,ts)'; % data at timestep ts
 %     xt = xt(1:end-1,:);
     xt(xt>1e10) = nan;

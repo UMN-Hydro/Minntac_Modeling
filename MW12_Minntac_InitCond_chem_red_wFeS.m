@@ -47,12 +47,13 @@ function [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, ..
 %  
 % Use this section to specify the number of zones and to comment on what
 % each zone represents.
-nzones = 3;
+nzones = 4;
 % ** comment here to describe 'zones'
 % zone 1: cell 2 water
 % zone 2: domain ic water
-% zone 3: recharge water
-zone_names = {'Cell', 'domain ic', 'recharge'}
+% zone 3: recharge water down-gradient of dike
+% zone 4: recharge water thru dike
+zone_names = {'Cell', 'domain ic', 'recharge down-grad', 'recharge dike'};
 % *************************************************************************
 
 % -- SET MODEL CHEMISTRY: initial trial values
@@ -77,9 +78,11 @@ zz = 0;
 zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(0.25/50, pH, Ka1, Ka2, KH); % meq/L (alk = 207.5 mg/L as CaCO3 at Cell 1, 307.5 mg/L as CaCO3 at Cell 2) 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(0.15/50, pH, Ka1, Ka2, KH); % eq/L (alk = 150 mg/L as CaCO3 at MW12)
 zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(0.15/50, pH, Ka1, Ka2, KH); % eq/L (alk = 150 mg/L as CaCO3 at MW12)
+zz = zz + 1; mob_eq_obs_z(zz,ii) = Alk2DIC(0.15/50, pH, Ka1, Ka2, KH); % eq/L (alk = 150 mg/L as CaCO3 at MW12)
 convert_obs2model(ii) = 1;
 ii=ii+1; mob_eq_comp{ii} = 'C(-4)'; % ***********************************
 zz = 0;
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L 
@@ -89,10 +92,12 @@ convert_obs2model(ii) = 1/1e3/16.0;
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % convert_obs2model(ii) = 1/1000/40.08;
 ii=ii+1; mob_eq_comp{ii} = 'Cl'; % ***********************************
 zz = 0;
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 141.557; % mg/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 convert_obs2model(ii) = 1/1000/35.453;
@@ -104,9 +109,12 @@ convert_obs2model(ii) = 1/1000/35.453;
 % mob_eq_extra_z{zz,ii} = 'charge';
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 1; % mg/L
 % mob_eq_extra_z{zz,ii} = 'charge';
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = 1; % mg/L
+% mob_eq_extra_z{zz,ii} = 'charge';
 % convert_obs2model(ii) = 1/1000/35.453;
 ii=ii+1; mob_eq_comp{ii} = 'Fe(2)'; % ***********************************
 zz = 0;
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug Fe/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug Fe/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug Fe/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug Fe/L
@@ -116,15 +124,18 @@ convert_obs2model(ii) = 1/1e6/55.847;
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % convert_obs2model(ii) = 1/1e3/39.102;
 % ii=ii+1; mob_eq_comp{ii} = 'Mg'; % ***********************************
 % zz = 0;
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % convert_obs2model(ii) = 1/1e3/24.312;
 % ii=ii+1; mob_eq_comp{ii} = 'Mn(2)'; % ***********************************
 % zz = 0;
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % ug/L
@@ -137,15 +148,19 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 1; % mg/L
 mob_eq_extra_z{zz,ii} = 'charge';
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 1; % mg/L
 mob_eq_extra_z{zz,ii} = 'charge';
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 1; % mg/L
+mob_eq_extra_z{zz,ii} = 'charge';
 convert_obs2model(ii) = 1/1e3/22.9898;
 ii=ii+1; mob_eq_comp{ii} = 'O(0)'; % ***********************************
 zz = 0;
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 9; % mg/L DO (saturation is 9mg/L at 20C) 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L DO  
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 9; % mg/L DO  
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 9; % mg/L DO  
 convert_obs2model(ii) = 1/1e3/16.0;
 ii=ii+1; mob_eq_comp{ii} = 'S(-2)'; % ***********************************
 zz = 0;
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg S/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg S/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg S/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg S/L
@@ -155,9 +170,15 @@ zz = 0;
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 918.172; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
+% thru tailings: 15 metric tons / mi2 / wk (= 0.0726 mg/L)
+Rech = 0.0114; % recharge [m/d]
+L = 15/7/1609.34^2*1e9; % loading [mg/m2/d]
+conc = L/Rech/1e3; % mg S/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = conc; % mg S/L
 convert_obs2model(ii) = 1/1e3/(32.064+4*16.0);
 % ii=ii+1; mob_eq_comp{ii} = 'Si'; % ***********************************
 % zz = 0;
+% zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 % zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
@@ -167,11 +188,13 @@ zz = 0;
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
 convert_obs2model(ii) = 1;
 ii=ii+1; mob_eq_comp{ii} = 'pe'; % ***********************************
 zz = 0;
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 14; % 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = -7; % 
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 14; % 
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 14; % 
 convert_obs2model(ii) = 1;
 n_mob_eq = ii;

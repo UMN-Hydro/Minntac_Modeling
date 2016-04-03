@@ -21,6 +21,7 @@
 %
 % _Orgcsource (3/31/16): adds another immobile component that is source
 %   that continuously replenishes Orgcsed.  For steady-state:
+% _dike (4/1/16): No Orgcsed in dike
 %
 % Assumes pht3d_databas.dat (geochem database) file already exists; specify
 % in 'use_file_databas'.
@@ -130,7 +131,8 @@ addpath(matlab_dir);
 
 % 1C) SET TIME PARAMETERS
 % timprs = [0:30:1800]; % print out times [Start Time:Increment:End Time] [d]
-timprs = [0,1,365:365:365*6]; % print out times [d]
+% timprs = [0,1,365:365:365*6]; % print out times [d]
+timprs = [0:365/10:365*10]; % print out times [d]
 nstp = 20;  % number of time steps, incr for better numerical performance, decr for faster simulations
 
 
@@ -381,24 +383,27 @@ mob_kin_ic = mob_kin_ic(:,:,:,1:n_mob_kin);
 % - mobile equil components
 % (already set in INPUT section)
 
-% - immobile kinetic components
+% - immobile kinetic componentscomponents
 n_imob_kin_max = 10;
 imob_kin_comp = cell(n_imob_kin_max,1);
 imob_kin_ic = zeros(nrow,ncol,nlay,n_imob_kin_max); 
 imob_kin_par = nan(n_par_max, n_mob_kin_max);
 imob_kin_formula = cell(n_mob_kin_max,1);
 ii = 0;
+% No Orgcsed in dike!!
 ii = ii+1; imob_kin_comp{ii} = 'Orgcsed'; % ********   
 imob_kin_par(1:length(Orgcsed_log10K),ii) = 10.^Orgcsed_log10K;
-% imob_kin_ic(:,:,:,ii) = 0; 
-imob_kin_ic(:,:,:,ii) = Orgcsed_conc_ic;
+imob_kin_ic(:,:,:,ii) = Orgcsed_conc_ic; 
+imob_kin_ic(:,1:round(96/x_scale),1:round(88/y_scale),ii) = 0;
+imob_kin_ic(:,round(139/x_scale):round(220/x_scale),1:round(88/y_scale),1:round(88/y_scale),ii) = 0;
 % imob_kin_formula{ii} = 'Orgcsed -1.0 Orgc 1.0 ';
 imob_kin_formula{ii} = 'Orgcsed -1.0 CH2O 1.0 ';
 if fl_Orgcsource
     ii = ii+1; imob_kin_comp{ii} = 'Orgcsource'; % ********   
     imob_kin_par(1:length(Orgcsource_log10K),ii) = 10.^Orgcsource_log10K;
-    % imob_kin_ic(:,:,:,ii) = 0; 
-    imob_kin_ic(:,:,:,ii) = Orgcsource_conc_ic;
+    imob_kin_ic(:,:,:,ii) = Orgcsource_conc_ic; 
+    imob_kin_ic(:,1:round(96/x_scale),1:round(88/y_scale),ii) = 0;
+    imob_kin_ic(:,round(139/x_scale):round(220/x_scale),1:round(88/y_scale),ii) = 0;
     imob_kin_formula{ii} = 'Orgcsource -1.0 Orgcsed 1.0 ';
 end
 n_imob_kin = ii;

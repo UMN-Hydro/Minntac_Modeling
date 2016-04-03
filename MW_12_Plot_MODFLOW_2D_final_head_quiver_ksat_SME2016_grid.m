@@ -208,16 +208,31 @@ while(1)
                 end
                 set(gca, 'YTick', ytickv, 'YTickLabel', yticklab);
                 drawnow
+%                 colormap autumn
+                
+                % overlay grid!!  
+                hold on,
+                for yy = 1: 5: nlay
+                    plot(col_coord(1, [1 end]), ones(2,1)*-lay_coord(yy,1), '-k');
+                end
+                for yy = 1: 5: ncol
+                    plot(ones(2,1)*col_coord(1,yy), -lay_coord([1 end],1), '-k');
+                end
             end
             colorbar;
             xlabel('x [m]'), ylabel('[m]')
-            title('Ksat [m/d]');
+%             title('Ksat [m/d]');
 %             caxis([0 3])
         end        
     end
 
 end
 fclose(fid);
+
+print('-dtiff', '-f12', 'fig12grid.tiff');
+% return
+
+
 
 % =========================================================================
 % -- Get flow data and plot it as quiver plots
@@ -441,5 +456,17 @@ end
 for ff = unique(fig_v)
     print('-dtiff', ['-f', num2str(ff)], ['fig', num2str(ff), '.tiff']);
 end
+
+% overlay grid!!  
+figure(12), subplot(2,1,2)
+hold on,
+for yy = 1: 5: nlay
+    plot(col_coord(1, [1 end]), ones(2,1)*-lay_coord(yy,1), '-k');
+end
+for yy = 1: 5: ncol
+    plot(ones(2,1)*col_coord(1,yy), -lay_coord([1 end],1), '-k');
+end
+print('-dtiff', '-f12', 'fig12_gridflow.tiff');
+print('-depsc', '-f12', 'fig12_gridflow.eps');
 
 

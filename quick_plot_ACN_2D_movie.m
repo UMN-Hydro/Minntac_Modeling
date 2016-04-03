@@ -14,7 +14,10 @@ end
 % sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1'; % no slash at end
 % sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160310a_DO'; % no slash at end
 % sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160310b_intenseSO4red'; % no slash at end
-sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160331i'; % no slash at end
+% sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160331a'; % no slash at end
+% sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160331f'; % no slash at end
+% sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160331i'; % no slash at end
+sim_dir = '/home/gcng/workspace/ModelRuns_scratch/PHT3D_projects/Minntac/test1/160401a'; % no slash at end
 % ************* (end to CUSTOMIZE TO YOUR COMPUTER!!) *********************
 
 fl_print = 1; % 1: print figure to .tiff
@@ -32,15 +35,15 @@ ii = ii + 1; plot_comp{ii} = 'pH'; %xlimv(ii,:) = [-14 14];
 ii = ii + 1; plot_comp{ii} = 'FeS(ppt)'; %xlimv(ii,:) = [0 .055]; 
 fl_diff_t1(ii) = 1;
 ii = ii + 1; plot_comp{ii} = 'Siderite'; %xlimv(ii,:) = [0 .055]; 
-fl_diff_t1(ii) = 1;
-ii = ii + 1; plot_comp{ii} = 'Fe(2)'; %xlimv(ii,:) = [0 1];
-% ii = ii + 1; plot_comp{ii} = 'pe'; xlimv(ii,:) = [-14 14];
-% ii = ii + 1; plot_comp{ii} = 'Mn(2)'; xlimv(ii,:) = [-14 14];
-ii = ii + 1; plot_comp{ii} = 'C(4)'; %xlimv(ii,:) = [-14 14];
-ii = ii + 1; plot_comp{ii} = 'C(-4)'; xlimv(ii,:) = [0 0.001];
-ii = ii + 1; plot_comp{ii} = 'O(0)'; fl_diff_t1(ii) = 1;
-% ii = ii + 1; plot_comp{ii} = 'Orgcsed'; fl_diff_t1(ii) = 1;
-ii = ii + 1; plot_comp{ii} = 'Orgcsource'; fl_diff_t1(ii) = 1;
+% fl_diff_t1(ii) = 1;
+% ii = ii + 1; plot_comp{ii} = 'Fe(2)'; %xlimv(ii,:) = [0 1];
+% % ii = ii + 1; plot_comp{ii} = 'pe'; xlimv(ii,:) = [-14 14];
+% % ii = ii + 1; plot_comp{ii} = 'Mn(2)'; xlimv(ii,:) = [-14 14];
+% ii = ii + 1; plot_comp{ii} = 'C(4)'; %xlimv(ii,:) = [-14 14];
+% ii = ii + 1; plot_comp{ii} = 'C(-4)'; xlimv(ii,:) = [0 0.001];
+% ii = ii + 1; plot_comp{ii} = 'O(0)'; fl_diff_t1(ii) = 1;
+ii = ii + 1; plot_comp{ii} = 'Orgcsed'; %fl_diff_t1(ii) = 1;
+ii = ii + 1; plot_comp{ii} = 'Orgcsource'; %fl_diff_t1(ii) = 1;
 
 n_pcomp = ii; plot_comp = plot_comp(1:n_pcomp);
 
