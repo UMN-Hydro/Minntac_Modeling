@@ -38,7 +38,7 @@ clear all, close all; fclose all;
 % (you can ignore "isunix" part, that's for my computers)
 
 % - Set flag to see whose computer
-fl_gcng = 1;  % 1 for gcng
+fl_gcng = 0;  % 1 for gcng
 
 if fl_gcng
     MOD_dir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3';
@@ -50,7 +50,7 @@ if fl_gcng
 
     % *** NEW
     % only use ONE of these lines for slashstr (comment out the other)
-    slashstr = '/';  % use this if on Linux
+    %slashstr = '/';  % use this if on Linux
     % slashstr = '\';  % use this if on Windows        
     
 else % Patrick
