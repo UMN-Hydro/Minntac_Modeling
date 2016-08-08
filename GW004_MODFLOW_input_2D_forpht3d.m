@@ -77,7 +77,7 @@ y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
 domain_len = 213.4; % meters
-domain_bot_elev = -20; % meters
+domain_bot_elev = -23.7; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
@@ -90,8 +90,8 @@ hydcond(1:round(88/y_scale),round(150/x_scale):round(225/x_scale)) = 0.00369; % 
 hydcond(1:round(88/y_scale),round(225/x_scale):round(375/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
-hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.000114;
+hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
+loRate = 0.00035;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
@@ -150,6 +150,9 @@ IBOUND(1:(78/y_scale),1) = -1 %Constant Head at Cell 1
 IBOUND((37/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW004
 IBOUND((200/y_scale),1:(400/x_scale)) = 0; %No flow base
 IBOUND(1,1:(400/x_scale)) = 1
+IBOUND(round(197/y_scale),round(300/x_scale):round(400/x_scale)) = 0; %no flow boundary
+IBOUND(round(198/y_scale),round(200/x_scale):round(400/x_scale)) = 0; %no flow boundary
+IBOUND(round(199/y_scale),round(100/x_scale):round(400/x_scale)) = 0; %no flow boundary
 
 %IBOUND(nearest(156/y_scale):nearest(200/y_scale),1:nearest(327/x_scale)) = 0;  % 0: no flow at bottom
 %IBOUND(nearest(158/y_scale):nearest(200/y_scale),nearest(328/x_scale):nearest(340/x_scale)) = 0;  % 0: no flow at bottom

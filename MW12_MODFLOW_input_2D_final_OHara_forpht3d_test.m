@@ -50,7 +50,7 @@ if fl_gcng
 
     % *** NEW
     % only use ONE of these lines for slashstr (comment out the other)
-    %slashstr = '/';  % use this if on Linux
+    slashstr = '/';  % use this if on Linux
     % slashstr = '\';  % use this if on Windows        
     
 else % Patrick
@@ -89,8 +89,8 @@ hydcond(1:round(88/y_scale),round(97/x_scale):round(138/x_scale)) = 0.00369; % t
 hydcond(1:round(88/y_scale),round(139/x_scale):round(220/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
-hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.000114;
+hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
+loRate = 0.00035;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
@@ -199,7 +199,7 @@ IBOUND(1:round(88/y_scale),round(363/x_scale):round(400/x_scale)) = 0; % in the 
 IBOUND(1:round(90/y_scale),round(369/x_scale):round(400/x_scale)) = 0; % in the air
 IBOUND(1:round(92/y_scale),round(382/x_scale):round(400/x_scale)) = 0; % in the air
 
-return
+
 
 initHead = repmat(TopHead, nlay, 1);
 

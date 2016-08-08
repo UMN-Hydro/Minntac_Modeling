@@ -77,21 +77,21 @@ y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
 domain_len = 177; % meters
-domain_bot_elev = -21.8; % meters
+domain_bot_elev = -30.6; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
-TopHead = [0:(-9.8)/(ncol-1):-9.8];  % head at top boundary (elev nominal at stream bottom)
+TopHead = [-9.4:(-7.1)/(ncol-1):-16.5];  % head at top boundary (elev nominal at stream bottom)
 
 % - K array (assume isotropic, but can be heterogeneous)
-hydcond = ones(nlay,ncol) * 2.46;  % Avg from MW12 S/I/D m/d
-hydcond(1:round(88/y_scale),1:round(160/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(160/x_scale):round(240/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(240/x_scale):round(400/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond = ones(nlay,ncol) * .56;  % Avg from MW12 S/I/D m/d
+hydcond(1:round(127/y_scale),1:round(126/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(127/y_scale),round(127/x_scale):round(215/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(127/y_scale),round(215/x_scale):round(380/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
-hiRate = 0.00114; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.000114;
+hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
+loRate = 0.00035;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
@@ -146,10 +146,19 @@ DELR = domain_len / ncol;  DELC = DELR;
 dz = (domain_top_elev - domain_bot_elev)/nlay;
 
 IBOUND = ones(nlay, ncol);  % 1: variable head 
-IBOUND(1:(200/y_scale),1) = -1 %Constant Head at inward boundary
-IBOUND((110/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW007
+IBOUND((63/y_scale):(200/y_scale),1) = -1 %Constant Head at inward boundary
+IBOUND((108/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW007
 IBOUND((200/y_scale),1:(400/x_scale)) = 0; %No flow base
 IBOUND(1,1:(400/x_scale)) = 1
+IBOUND(round(199/y_scale),round(40/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(198/y_scale),round(80/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(197/y_scale),round(120/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(196/y_scale),round(160/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(195/y_scale),round(200/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(194/y_scale),round(240/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(193/y_scale),round(280/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(192/y_scale),round(320/x_scale):round(400/x_scale)) = 0; %no flow base
+IBOUND(round(191/y_scale),round(360/x_scale):round(400/x_scale)) = 0; %no flow base
 
 %IBOUND(nearest(156/y_scale):nearest(200/y_scale),1:nearest(327/x_scale)) = 0;  % 0: no flow at bottom
 %IBOUND(nearest(158/y_scale):nearest(200/y_scale),nearest(328/x_scale):nearest(340/x_scale)) = 0;  % 0: no flow at bottom

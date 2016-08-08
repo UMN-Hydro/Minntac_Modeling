@@ -1,6 +1,6 @@
 function [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, ...
     catex_comp, catex_ic_z, surf_comp, surf_ic_z, surf_par, surf_cpl, surf_calc_type] = ...
-    MW12_Minntac_InitCond_chem_red_wFeS(phrq_sim_dir, phrq_exe, use_file_databas, por, tempC) 
+    GW007_Minntac_InitCond_chem_red_wFeS(phrq_sim_dir, phrq_exe, use_file_databas, por, tempC) 
 
 % Uses the following functions:
 %   - Alk2DIC() (only needed if data is for alkalinity)
