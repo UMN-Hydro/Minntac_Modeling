@@ -99,11 +99,11 @@ else
     phrq_exe = 'C:\Hydro_Modeling\phreeqc';
 
     % - sim_dir: Directory with input files and where you run simulations
-    sim_dir = 'C:\Hydro_Modeling\MW12_pht3d_dir\';
+    sim_dir = 'C:\Hydro_Modeling\GW003_pht3d_dir\';
 
     % - flo_file: MODFLOW flo simulation file (full path)
     % flo_file = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/ESCI5980/test2_1D_3/test.flo';
-    flo_file = 'C:\Hydro_Modeling\MINNTAC_MATLAB_FILES\MW12_MODFLOW_dir\test.flo'; % 2D, no recharge
+    flo_file = 'C:\Hydro_Modeling\MINNTAC_MATLAB_FILES\GW003_MODFLOW_dir\test.flo'; % 2D, no recharge
     % flo_file = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/ESCI5980/Asst5_3/test.flo'; % 2D, w/ recharge
     fl_rech = 1;  % 1: for recharge, 0 for no recharge in the MODFLOW simulation
 
@@ -142,16 +142,16 @@ nstp = 20;  % number of time steps, incr for better numerical performance, decr 
 nlay = 75;
 ncol = 150;   
 nrow = 1;
-domain_bot_elev = -19; % m
+domain_bot_elev = -27.2; % m
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
-domain_len = 342.9; % [m]
+domain_len = 224; % [m]
 
 y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
 
 % -- General properties
-tempC = 5.34; % water temperature, geochem rxs are temp-sensitive
+tempC = 9.14; % water temperature, geochem rxs are temp-sensitive
 por = 0.35;   % porosity
 rho_b = 1864; % g/L (bulk density), needed for mineral phase concentrations
 
@@ -225,7 +225,7 @@ end
 % (nrow,ncol,nlay,n_comp)
 [mob_eq_comp, mob_eq_ic_z, mob_eq_extra_z, min_eq_comp, min_eq_ic_z, catex_comp, catex_ic_z, ...
     surf_comp, surf_ic_z, surf_par, surf_cpl, surf_calc_type] = ...
-    MW12_Minntac_InitCond_chem_red_wFeS(sim_dir, phrq_exe, use_file_databas, por, tempC);
+    GW003_Minntac_InitCond_chem_red_wFeS(sim_dir, phrq_exe, use_file_databas, por, tempC);
 if isempty(mob_eq_comp)
     fprintf('Minntac_InitCond_chem did not return valid results, exiting... \n')
     return
@@ -261,7 +261,7 @@ for ii = 1: n_mob_eq
     % recharge 
     mob_eq_const_rech(ii) = mob_eq_ic_z(3,ii); % spatially constant
     mob_eq_distr_rech(:,:,ii) = mob_eq_ic_z(3,ii); % spatially distributed
-    mob_eq_distr_rech(1,1:round(220/x_scale),ii) = mob_eq_ic_z(4,ii); % recharge concentration thru perimeter dike
+    mob_eq_distr_rech(1,1:(216/x_scale),ii) = mob_eq_ic_z(4,ii); % recharge concentration thru perimeter dike
 end
 for ii = 1: n_min_eq
     % Rest of domain
@@ -292,7 +292,7 @@ ind_DO = find(strcmp(mob_eq_comp, 'O(0)'));
 
 % force anoxic
 mob_eq_ic(:,2:end,1:end,ii) = 0; % rest of domain (not Cell water)
-mob_eq_distr_rech(1,1:(216/x_scale),ind_DO) = 0; 
+mob_eq_distr_rech(1,1:(240/x_scale),ind_DO) = 0; 
 
 
 % 1G) ADDITIONAL OUTPUT VARIABLES FOR 'SELECT' FILE, SET IN POSTFIX FILE
@@ -394,18 +394,18 @@ ii = 0;
 ii = ii+1; imob_kin_comp{ii} = 'Orgcsed'; % ********   
 imob_kin_par(1:length(Orgcsed_log10K),ii) = 10.^Orgcsed_log10K;
 imob_kin_ic(:,:,:,ii) = Orgcsed_conc_ic; 
-imob_kin_ic(:,1:round(96/x_scale),1:round(56/y_scale),ii) = 0;
-imob_kin_ic(:,round(97/x_scale):round(138/x_scale),1:round(88/y_scale),ii) = 0;
-imob_kin_ic(:,round(139/x_scale):round(220/x_scale),1:round(56/y_scale),ii) = 0;
+imob_kin_ic(:,1:round(160/x_scale),1:round(66/y_scale),ii) = 0;
+imob_kin_ic(:,round(160/x_scale):round(240/x_scale),1:round(88/y_scale),ii) = 0;
+imob_kin_ic(:,round(240/x_scale):round(400/x_scale),1:round(66/y_scale),ii) = 0;
 % imob_kin_formula{ii} = 'Orgcsed -1.0 Orgc 1.0 ';
 imob_kin_formula{ii} = 'Orgcsed -1.0 CH2O 1.0 ';
 if fl_Orgcsource
     ii = ii+1; imob_kin_comp{ii} = 'Orgcsource'; % ********   
     imob_kin_par(1:length(Orgcsource_log10K),ii) = 10.^Orgcsource_log10K;
     imob_kin_ic(:,:,:,ii) = Orgcsource_conc_ic; 
-    imob_kin_ic(:,1:round(96/x_scale),1:round(56/y_scale),ii) = 0;
-    imob_kin_ic(:,round(97/x_scale):round(138/x_scale),1:round(88/y_scale),ii) = 0;
-    imob_kin_ic(:,round(139/x_scale):round(220/x_scale),1:round(56/y_scale),ii) = 0;
+    imob_kin_ic(:,1:round(160/x_scale),1:round(66/y_scale),ii) = 0;
+    imob_kin_ic(:,round(160/x_scale):round(240/x_scale),1:round(88/y_scale),ii) = 0;
+    imob_kin_ic(:,round(240/x_scale):round(400/x_scale),1:round(66/y_scale),ii) = 0;
     imob_kin_formula{ii} = 'Orgcsource -1.0 Orgcsed 1.0 ';
 end
 n_imob_kin = ii;

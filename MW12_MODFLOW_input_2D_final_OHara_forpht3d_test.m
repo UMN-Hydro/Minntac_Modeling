@@ -83,18 +83,22 @@ domain_top_elev = 0; % top of domain must be at least this elev (include extra s
 TopHead = [0:(-10.5)/(ncol-1):-10.5];  % head at top boundary (elev nominal at stream bottom)
 
 % - K array (assume isotropic, but can be heterogeneous)
-hydcond = ones(nlay,ncol) * 2.46;  % Avg from MW12 S/I/D m/d
-hydcond(1:round(88/y_scale),1:round(96/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(97/x_scale):round(138/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(139/x_scale):round(220/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond = ones(nlay,ncol)*1.6;  % Avg from MW12 S/I/D m/d
+hydcond(1:round(56/y_scale),1:round(96/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),round(97/x_scale):round(138/x_scale)) = 0.033; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(56/y_scale),round(139/x_scale):round(220/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.00035;
+loRate = 0.00056;
+
+pumpback = 0; %1: use pumpback
+pump_rate = 7; % m/d determined by Mike Berndt study
+
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
-MODtest_dir = 'test2_1D_3';
+MODtest_dir = 'MW12_MODFLOW_dir';
 
 % -- names of input files (created with this script)
 fil_ba6 = 'test_1D.ba6';
@@ -110,7 +114,12 @@ fil_oc = 'test.oc';
 % the following is created only if recharge stress package is used
 if fl_recharge
     fil_rch = 'test.rch';
-end    
+end  
+
+% the following is created only if the well stress package is used
+if pumpback
+    fil_wel = 'test.wel';
+end
 
 % - time info
 nper = 1;  % number of stress periods
@@ -355,8 +364,8 @@ if fl_recharge
         fprintf(fid, '    %2d              INRECH\n', INRECH); % 
         % fprintf(fid, 'CONSTANT %14g   RECH (PERIOD %d) \n', rch_rate, per_i);
         SpatVarRechRate = ones(ncol,1);
-        SpatVarRechRate(1:round(216/x_scale)) = hiRate;
-        SpatVarRechRate(round(217/x_scale):round(400/x_scale)) = loRate;
+        SpatVarRechRate(1:round(220/x_scale)) = hiRate;
+        SpatVarRechRate(round(221/x_scale):round(400/x_scale)) = loRate;
         fprintf(fid, 'INTERNAL   1.0 (FREE) 0         recharge rate  \n');
         fprintf(fid, format1, SpatVarRechRate);
     end
@@ -375,6 +384,10 @@ fprintf(fid, 'LPF          11 %s \n', fil_lpf_0);
 if fl_recharge
 %     fprintf(fid, 'RCH          18 %s \n', fullfile(MODtest_dir0, fil_rch));
     fprintf(fid, 'RCH          18 %s \n', [MODtest_dir0, slashstr, fil_rch]);
+end
+if pumpback
+%     fprintf(fid, 'WEL          17 %s \n' fullfile(MODtest_dir0, fil_wel));
+    fprintf(fid, 'WEL          17 %s \n',[MODtest_dir0, slashstr, fil_wel]);
 end
 % fprintf(fid, 'PCG          19 %s \n', fullfile(MODtest_dir0, fil_pcg));
 fprintf(fid, 'PCG          19 %s \n', [MODtest_dir0, slashstr, fil_pcg]);

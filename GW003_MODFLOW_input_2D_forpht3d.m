@@ -85,17 +85,17 @@ TopHead = [0:(-8)/(ncol-1):-8];  % head at top boundary (elev nominal at stream 
 
 % - K array (assume isotropic, but can be heterogeneous)
 hydcond = ones(nlay,ncol) * 2.46;  % Avg from MW12 S/I/D m/d
-hydcond(1:round(88/y_scale),1:round(160/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(160/x_scale):round(240/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(88/y_scale),round(240/x_scale):round(400/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(66/y_scale),1:round(160/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(88/y_scale),round(160/x_scale):round(240/x_scale)) = 0.033; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(66/y_scale),round(240/x_scale):round(400/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.00035;
+loRate = 0.00056;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
-MODtest_dir = 'test2_1D_3';
+MODtest_dir = 'GW003_MODFLOW_dir';
 
 % -- names of input files (created with this script)
 fil_ba6 = 'test_1D.ba6';
@@ -377,8 +377,8 @@ if fl_recharge
         fprintf(fid, '    %2d              INRECH\n', INRECH); % 
         % fprintf(fid, 'CONSTANT %14g   RECH (PERIOD %d) \n', rch_rate, per_i);
         SpatVarRechRate = ones(ncol,1);
-        SpatVarRechRate(1:nearest(216/x_scale)) = hiRate;
-        SpatVarRechRate(nearest(217/x_scale):nearest(400/x_scale)) = loRate;
+        SpatVarRechRate(1:nearest(240/x_scale)) = hiRate;
+        SpatVarRechRate(nearest(240/x_scale):nearest(400/x_scale)) = loRate;
         fprintf(fid, 'INTERNAL   1.0 (FREE) 0         recharge rate  \n');
         fprintf(fid, format1, SpatVarRechRate);
     end

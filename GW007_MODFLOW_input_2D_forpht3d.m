@@ -77,25 +77,25 @@ y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
 domain_len = 177; % meters
-domain_bot_elev = -30.6; % meters
+domain_bot_elev = -21.2; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
-TopHead = [-9.4:(-7.1)/(ncol-1):-16.5];  % head at top boundary (elev nominal at stream bottom)
+TopHead = [0:(-7.1)/(ncol-1):-7.1];  % head at top boundary (elev nominal at stream bottom)
 
 % - K array (assume isotropic, but can be heterogeneous)
 hydcond = ones(nlay,ncol) * .56;  % Avg from MW12 S/I/D m/d
-hydcond(1:round(127/y_scale),1:round(126/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(127/y_scale),round(127/x_scale):round(215/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(127/y_scale),round(215/x_scale):round(380/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(66/y_scale),1:round(126/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(95/y_scale),round(127/x_scale):round(215/x_scale)) = 0.033; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(66/y_scale),round(215/x_scale):round(380/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.00035;
+loRate = 0.00056;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
-MODtest_dir = 'test2_1D_3';
+MODtest_dir = 'GW007_MODFLOW_dir';
 
 % -- names of input files (created with this script)
 fil_ba6 = 'test_1D.ba6';
@@ -147,7 +147,7 @@ dz = (domain_top_elev - domain_bot_elev)/nlay;
 
 IBOUND = ones(nlay, ncol);  % 1: variable head 
 IBOUND((63/y_scale):(200/y_scale),1) = -1 %Constant Head at inward boundary
-IBOUND((108/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW007
+IBOUND(round(108/y_scale):round(200/y_scale),round(400/x_scale)) = -1 %Constant Head at GW007
 IBOUND((200/y_scale),1:(400/x_scale)) = 0; %No flow base
 IBOUND(1,1:(400/x_scale)) = 1
 IBOUND(round(199/y_scale),round(40/x_scale):round(400/x_scale)) = 0; %no flow base
@@ -370,8 +370,8 @@ if fl_recharge
         fprintf(fid, '    %2d              INRECH\n', INRECH); % 
         % fprintf(fid, 'CONSTANT %14g   RECH (PERIOD %d) \n', rch_rate, per_i);
         SpatVarRechRate = ones(ncol,1);
-        SpatVarRechRate(1:nearest(216/x_scale)) = hiRate;
-        SpatVarRechRate(nearest(217/x_scale):nearest(400/x_scale)) = loRate;
+        SpatVarRechRate(1:nearest(380/x_scale)) = hiRate;
+        SpatVarRechRate(nearest(380/x_scale):nearest(400/x_scale)) = loRate;
         fprintf(fid, 'INTERNAL   1.0 (FREE) 0         recharge rate  \n');
         fprintf(fid, format1, SpatVarRechRate);
     end

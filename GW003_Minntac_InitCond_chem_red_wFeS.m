@@ -96,7 +96,7 @@ convert_obs2model(ii) = 1/1e3/16.0;
 % convert_obs2model(ii) = 1/1000/40.08;
 ii=ii+1; mob_eq_comp{ii} = 'Cl'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 141.557; % mg/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 147.57; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg/L
@@ -167,7 +167,7 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg S/L
 convert_obs2model(ii) = 1/1e3/32.064;
 ii=ii+1; mob_eq_comp{ii} = 'S(6)'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 918.172; % mg SO4/L
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 907.24; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 % thru tailings: 15 metric tons / mi2 / wk (= 0.0726 mg/L)

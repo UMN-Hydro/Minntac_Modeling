@@ -76,26 +76,26 @@ ncol = 150;   %
 y_scale = 200/nlay; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by 400 columns
 
-domain_len = 196; % meters
+domain_len = 170; % meters
 domain_bot_elev = -19.8; % meters
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 % - head boundary conditions
-TopHead = [0:(-8.8)/(ncol-1):-8.8];  % head at top boundary (elev nominal at stream bottom)
+TopHead = [0:(-9.4)/(ncol-1):-9.4];  % head at top boundary (elev nominal at stream bottom)
 
 % - K array (assume isotropic, but can be heterogeneous)
 hydcond = ones(nlay,ncol) * 0.56;  % Avg from MW12 S/I/D m/d
-hydcond(1:round(93/y_scale),1:round(180/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(93/y_scale),round(180/x_scale):round(264/x_scale)) = 0.00369; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(93/y_scale),round(264/x_scale):round(384/x_scale)) = 6.9; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(62/y_scale),1:round(180/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(93/y_scale),round(180/x_scale):round(264/x_scale)) = 0.033; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(62/y_scale),round(264/x_scale):round(384/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
-loRate = 0.00035;
+loRate = 0.00056;
 % -- name of directory with MODFLOW test (create input files in this
 % directory)
 % *** WARNING!  IT WILL OVERWRITE EXISTING FILES!!! ***
-MODtest_dir = 'test2_1D_3';
+MODtest_dir = 'GW006_MODFLOW_dir';
 
 % -- names of input files (created with this script)
 fil_ba6 = 'test_1D.ba6';
@@ -363,8 +363,8 @@ if fl_recharge
         fprintf(fid, '    %2d              INRECH\n', INRECH); % 
         % fprintf(fid, 'CONSTANT %14g   RECH (PERIOD %d) \n', rch_rate, per_i);
         SpatVarRechRate = ones(ncol,1);
-        SpatVarRechRate(1:nearest(216/x_scale)) = hiRate;
-        SpatVarRechRate(nearest(217/x_scale):nearest(400/x_scale)) = loRate;
+        SpatVarRechRate(1:nearest(384/x_scale)) = hiRate;
+        SpatVarRechRate(nearest(384/x_scale):nearest(400/x_scale)) = loRate;
         fprintf(fid, 'INTERNAL   1.0 (FREE) 0         recharge rate  \n');
         fprintf(fid, format1, SpatVarRechRate);
     end
