@@ -153,7 +153,7 @@ x_scale = 400/ncol; %ratio set by initial harcoded discretization of 200 rows by
 % -- General properties
 tempC = 6.25; % water temperature, geochem rxs are temp-sensitive
 por = 0.35;   % porosity
-rho_b = 1864; % g/L (bulk density), needed for mineral phase concentrations
+
 
 
 % -- Dispersion 
@@ -197,8 +197,8 @@ vert2longdisp = 0.0015; % ratio vertical transverse disp / long dispersivity (Ga
 % ** Modify to control kinetic rate of redox reactions
 % Current model: 1st order decay relative to Orgcsed concentration; faster rate for aerobic degradation
 
-% - set Orgsed ic conc [mol/g]
-Orgcsed_conc_ic = 3*por/rho_b;  % [mol/Lw] * por / rho_b = [mol/g] * current value: arbitrary!!!
+% - set Orgsed ic conc [mol/Lw]
+Orgcsed_conc_ic = 0.00101;  
 
 % - kinetic parameters (we're assuming 1st order decay)
 % (increase logK for faster decay)

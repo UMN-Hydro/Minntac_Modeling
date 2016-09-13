@@ -197,8 +197,8 @@ vert2longdisp = 0.0015; % ratio vertical transverse disp / long dispersivity (Ga
 % ** Modify to control kinetic rate of redox reactions
 % Current model: 1st order decay relative to Orgcsed concentration; faster rate for aerobic degradation
 
-% - set Orgsed ic conc [mol/g]
-Orgcsed_conc_ic = 3*por/rho_b;  % [mol/Lw] * por / rho_b = [mol/g] * current value: arbitrary!!!
+% - set Orgsed ic conc [mol/Lw]
+Orgcsed_conc_ic = 0.000021;
 
 % - kinetic parameters (we're assuming 1st order decay)
 % (increase logK for faster decay)

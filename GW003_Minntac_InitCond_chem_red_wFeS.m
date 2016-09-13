@@ -171,7 +171,7 @@ zz = zz + 1; mob_eq_obs_z(zz,ii) = 907.24; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = 0; % mg SO4/L
 % thru tailings: 15 metric tons / mi2 / wk (= 0.0726 mg/L)
-Rech = 0.0114; % recharge [m/d]
+Rech = 0.00084; % recharge [m/d]
 L = 15/7/1609.34^2*1e9; % loading [mg/m2/d]
 conc = L/Rech/1e3; % mg S/L
 zz = zz + 1; mob_eq_obs_z(zz,ii) = conc; % mg S/L
