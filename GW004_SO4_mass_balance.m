@@ -22,10 +22,11 @@ if fl_gcng
     slashstr = '/';
 else
     % PHT3D_oudir: directory with pht3d.out, pht3d.m, and .MAS files
-    PHT3D_outdir = 'C:\Hydro_Modeling\GW004_pht3d_dir'; % enter here
+    PHT3D_outdir = 'C:\Hydro_Modeling\GW004_pht3d_dir\'; % enter here
     slashstr = '\';    
 end
 
+por = 0.39; % porosity (to correct results for solid phase)
 %% ------------------------------------------------------------------------
 if ~strcmp(PHT3D_outdir(end), slashstr)
     PHT3D_outdir = [PHT3D_outdir, slashstr];
@@ -61,7 +62,7 @@ SO4_Rech = MBpht3d.MassBalIn(:, 3, SO4_ind) + MBpht3d.MassBalOut(:, 3, SO4_ind);
 SO4_Downgrad = MBpht3d.MassBalIn(:, 2, SO4_ind) + MBpht3d.MassBalOut(:, 2, SO4_ind); % net into soln, should be <0
 SO4_Red = MBpht3d.MassBalIn(:, 4, SO4_ind) + MBpht3d.MassBalOut(:, 4, SO4_ind); % net into soln, should be <0
 
-FeSppt = MBpht3d.MassBalIn(:, 4, FeS_ind) + MBpht3d.MassBalOut(:, 4, FeS_ind); % net into soln, should be >0
+FeSppt = MBpht3d.MassBalIn(:, 4, FeS_ind) + MBpht3d.MassBalOut(:, 4, FeS_ind) / por; % net into soln, should be >0 (need to divide by porosity for solid phases)
 
 timesYr = times/365;
 
