@@ -87,7 +87,7 @@ TopHead = [0:(-9.1)/(ncol-1):-9.1];  % head at top boundary (elev nominal at str
 hydcond = ones(nlay,ncol) * 0.56;  % Avg from MW12 S/I/D m/d
 hydcond(1:round(81/y_scale),1:round(128/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
 hydcond(1:round(120/y_scale),round(128/x_scale):round(206/x_scale)) = 0.033; % taken from k_values_Erik_Smith.jpg in google drive
-hydcond(1:round(81/y_scale),round(206/x_scale):round(296/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
+hydcond(1:round(81/y_scale),round(207/x_scale):round(296/x_scale)) = 0.672; % taken from k_values_Erik_Smith.jpg in google drive
 
 fl_recharge = 1;  %1: use recharge
 hiRate = 0.00084; % m/d determined by Travis' Hydrus model Core 3Dup cummulative bottom flux
@@ -146,7 +146,7 @@ DELR = domain_len / ncol;  DELC = DELR;
 dz = (domain_top_elev - domain_bot_elev)/nlay;
 
 IBOUND = ones(nlay, ncol);  % 1: variable head 
-IBOUND(54/y_scale:(160/y_scale),1) = -1 %Constant Head at inward boundary
+IBOUND(1:(200/y_scale),1) = -1 %Constant Head at inward boundary
 IBOUND((150/y_scale):(200/y_scale),(400/x_scale)) = -1 %Constant Head at GW008
 IBOUND((200/y_scale),1:(400/x_scale)) = 0; %No flow base
 IBOUND(1,1:(400/x_scale)) = 1

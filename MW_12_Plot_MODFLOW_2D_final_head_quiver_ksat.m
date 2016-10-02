@@ -11,14 +11,10 @@ clear all, fclose all;
 close all,
 
 % --------------------------------------------------------
-fl_gcng = 1;  % 1: Crystal, 0: Patrick
 
 % -- directory with simulation results, file names
-if fl_gcng
-    MOD_simdir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3/test2_1D_3';
-else    
-    MOD_simdir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES/test2_1D_3';
-end
+MOD_simdir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES/MW12_MODFLOW_dir';
+% MOD_simdir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3';
 head_file = 'testhead.dat'; % head data
 ibound_file = 'ibound.dat'; % needed to get active cell info for reading water budget file
 bud_file = 'test.bud'; % water budget file (for flow lines)
@@ -27,15 +23,9 @@ lpf_file = 'test_1D.lpf'; % read in for K inputs
 
 
 % Only ONE can be 1, others 0
-if fl_gcng
-    fl_MOD_PC = 0;
-    fl_MOD_USGS_RedHat = 0; 
-    fl_MOD_UBUNTU = 1;
-else
-    fl_MOD_PC = 1;
-    fl_MOD_USGS_RedHat = 0; 
-    fl_MOD_UBUNTU = 0;
-end
+fl_MOD_PC = 1;
+fl_MOD_USGS_RedHat = 0; 
+fl_MOD_UBUNTU = 0;
 if fl_MOD_PC + fl_MOD_USGS_RedHat + fl_MOD_UBUNTU ~= 1
     fprintf('ERROR!! Only one of following can be equal to 1! \n');
     fprintf('fl_MOD_PC. fl_MOD_USGS_RedHat, fl_MOD_UBUNTU \n');
@@ -149,7 +139,7 @@ while(1)
 
     if ncol == 1
         plot(data_head, lay_coord);
-        ylabel('[m]');
+        ylabel('elev [m]');
         xlabel('head');
         pause
         hold on
@@ -180,7 +170,7 @@ while(1)
                 drawnow
             end
             colorbar;
-            xlabel('x [m]'), ylabel('[m]')
+            xlabel('x [m]'), ylabel('elev [m]')
             title('head [m]');
         end
         
@@ -189,9 +179,13 @@ while(1)
             figure(12)
             subplot(2,1,loop),
             n_contours = 50;
-            if loop == 1            
+            if loop == 1  
+                Ksat(Ksat<=0.034) = 0;
+                Ksat(Ksat>1) = 2;
+                Ksat(Ksat>0.6&Ksat<0.7) = 1;
+                cm = [1 0.5 0;0 1 0.5;0.5 0.5 1];
                 [C h] = contour(col_coord, lay_coord, (Ksat), n_contours);            
-                colormap 'cool';
+                colormap (cm);
 %                 pause
             else
                 % NOTE: a couple annoying aspects about imagesc() in Matlab:
@@ -210,7 +204,7 @@ while(1)
                 drawnow
             end
             colorbar;
-            xlabel('x [m]'), ylabel('[m]')
+            xlabel('x [m]'), ylabel('elev [m]')
             title('Ksat [m/d]');
 %             caxis([0 3])
         end        
@@ -396,7 +390,7 @@ for loop = [2 4 5]
     % set(gca,'XLim',[DELR/2 260], 'YLim', [417 424]);
 
     % plot streamlines
-    xlabel('x [m]'), ylabel('[m]');
+    xlabel('x [m]'), ylabel('z [m below max water table elev.]');
     % title('Streamlines')
     
     % plot quiver (arrows)
@@ -435,11 +429,8 @@ for loop = [2 4 5]
         end
         set(gca,'YTick', ylabtick_neg, 'YTickLabel', ylab);
     end
-    box on
 end
 
-for ff = unique(fig_v)
-    print('-dtiff', ['-f', num2str(ff)], ['fig', num2str(ff), '.tiff']);
-end
-
+% print('-dtiff', '-f10', headflowfigfile);
+% print('-dtiff', '-f11', Ksatfigfile);
 

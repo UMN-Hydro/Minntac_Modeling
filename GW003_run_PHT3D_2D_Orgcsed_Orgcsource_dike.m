@@ -261,7 +261,7 @@ for ii = 1: n_mob_eq
     % recharge 
     mob_eq_const_rech(ii) = mob_eq_ic_z(3,ii); % spatially constant
     mob_eq_distr_rech(:,:,ii) = mob_eq_ic_z(3,ii); % spatially distributed
-    mob_eq_distr_rech(1,1:(216/x_scale),ii) = mob_eq_ic_z(4,ii); % recharge concentration thru perimeter dike
+    mob_eq_distr_rech(1,1:(400/x_scale),ii) = mob_eq_ic_z(4,ii); % recharge concentration thru perimeter dike
 end
 for ii = 1: n_min_eq
     % Rest of domain

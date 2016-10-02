@@ -132,7 +132,7 @@ addpath(matlab_dir);
 % 1C) SET TIME PARAMETERS
 % timprs = [0:30:1800]; % print out times [Start Time:Increment:End Time] [d]
 % timprs = [0,1,365:365:365*6]; % print out times [d]
-timprs = [0:365/10:365*18]; % print out times [d]
+timprs = [0:365/10:365*12]; % print out times [d]
 nstp = 20;  % number of time steps, incr for better numerical performance, decr for faster simulations
 
 

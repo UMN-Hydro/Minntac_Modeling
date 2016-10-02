@@ -185,10 +185,10 @@ convert_obs2model(ii) = 1/1e3/(32.064+4*16.0);
 % convert_obs2model(ii) = 1/1e3/28.0843;
 ii=ii+1; mob_eq_comp{ii} = 'pH'; % ***********************************
 zz = 0;
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
-zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.92; % 
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.37; % 
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.37; % 
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.37; % 
+zz = zz + 1; mob_eq_obs_z(zz,ii) = 6.37; % 
 convert_obs2model(ii) = 1;
 ii=ii+1; mob_eq_comp{ii} = 'pe'; % ***********************************
 zz = 0;

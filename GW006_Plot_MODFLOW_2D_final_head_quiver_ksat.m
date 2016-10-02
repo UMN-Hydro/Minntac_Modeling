@@ -13,7 +13,7 @@ close all,
 % --------------------------------------------------------
 
 % -- directory with simulation results, file names
-MOD_simdir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES/test2_1D_3';
+MOD_simdir = 'C:/Hydro_Modeling/MINNTAC_MATLAB_FILES/GW006_MODFLOW_dir';
 % MOD_simdir = '/home/gcng/workspace/ModelRuns_scratch/MODFLOW_projects/Minntac/test3';
 head_file = 'testhead.dat'; % head data
 ibound_file = 'ibound.dat'; % needed to get active cell info for reading water budget file
@@ -37,8 +37,8 @@ nlay = 75;
 ncol = 150;
 
 % - domain size
-domain_len = 196;
-domain_bot_elev = -23.2; % m
+domain_len = 170;
+domain_bot_elev = -19.8; % m
 domain_top_elev = 0; % top of domain must be at least this elev (include extra space for WT mov't)
 
 
@@ -179,9 +179,13 @@ while(1)
             figure(12)
             subplot(2,1,loop),
             n_contours = 50;
-            if loop == 1            
+            if loop == 1  
+                Ksat(Ksat<=0.034) = 0;
+                Ksat(Ksat>0.66) = 1;
+                Ksat(Ksat>0.54&Ksat<0.6) = 2;
+                cm = [1 0.5 0;0 1 0.5;0.5 0.5 1];
                 [C h] = contour(col_coord, lay_coord, (Ksat), n_contours);            
-                colormap 'cool';
+                colormap (cm);
 %                 pause
             else
                 % NOTE: a couple annoying aspects about imagesc() in Matlab:
@@ -386,7 +390,7 @@ for loop = [2 4 5]
     % set(gca,'XLim',[DELR/2 260], 'YLim', [417 424]);
 
     % plot streamlines
-    xlabel('x [m]'), ylabel('z [m above sea level]');
+    xlabel('x [m]'), ylabel('z [m below max water table elev.]');
     % title('Streamlines')
     
     % plot quiver (arrows)
